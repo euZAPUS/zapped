@@ -66,3 +66,22 @@ describe('parseCustomText', () => {
     expect(parseCustomText('  \n\n ')).toEqual([]);
   });
 });
+
+describe('Spanish options', () => {
+  it('types ñ as n when the eñe option is off', () => {
+    const opts = { language: 'es' as const, accents: true, punctuation: false, numbers: false };
+    const on = generateWords(800, { ...opts, rng: seeded(9) }).map((w) => w.text).join(' ');
+    expect(on).toMatch(/ñ/);
+    const off = generateWords(800, { ...opts, enye: false, rng: seeded(9) }).map((w) => w.text).join(' ');
+    expect(off).not.toMatch(/[ñÑ]/);
+  });
+
+  it('drops the opening ¿ and ¡ when inverted marks are off', () => {
+    const opts = { language: 'es' as const, accents: true, punctuation: true, numbers: false };
+    const withMarks = generateWords(800, { ...opts, rng: seeded(4) }).map((w) => w.text).join(' ');
+    expect(withMarks).toMatch(/[¿¡]/);
+    const without = generateWords(800, { ...opts, invertedMarks: false, rng: seeded(4) }).map((w) => w.text).join(' ');
+    expect(without).not.toMatch(/[¿¡]/);
+    expect(without).toMatch(/[?!]/);
+  });
+});

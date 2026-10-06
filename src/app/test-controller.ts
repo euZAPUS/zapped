@@ -1,4 +1,5 @@
 import { sound } from '../audio/sound';
+import { pickSnippet } from '../data/snippets';
 import type { Effects } from '../render/effects';
 import { renderResult } from '../render/result-view';
 import type { TextView } from '../render/text-view';
@@ -25,6 +26,7 @@ export class TestController {
   private engine: TestEngine | null = null;
   private timer = 0;
   private lastSlots: WordSlot[] = [];
+  private lastSnippet = '';
   private blinkTimer = 0;
   private hudMain = document.createElement('span');
   private hudWpm = document.createElement('span');
@@ -41,7 +43,14 @@ export class TestController {
 
   private genOptions(): GenOptions {
     const s = settings.get();
-    return { language: s.language, accents: s.accents, punctuation: s.punctuation, numbers: s.numbers };
+    return {
+      language: s.language,
+      accents: s.accents,
+      enye: s.enye,
+      invertedMarks: s.invertedMarks,
+      punctuation: s.punctuation,
+      numbers: s.numbers,
+    };
   }
 
   /** Starts a fresh test from the current settings (or the same words when `repeat`). */
@@ -56,6 +65,9 @@ export class TestController {
       slots = this.lastSlots;
     } else if (s.mode === 'custom') {
       slots = parseCustomText(s.customText);
+    } else if (s.mode === 'code') {
+      this.lastSnippet = pickSnippet(s.codeLang, this.lastSnippet);
+      slots = parseCustomText(this.lastSnippet);
     } else if (s.mode === 'words') {
       slots = closeSlots(generateWords(s.words, this.genOptions()));
     } else {
@@ -187,6 +199,7 @@ export class TestController {
       punctuation: s.punctuation,
       numbers: s.numbers,
       accents: s.accents,
+      code: engine.mode === 'code' ? s.codeLang : undefined,
       stopOnError: s.stopOnError,
       wpm: result.wpm,
       raw: result.raw,

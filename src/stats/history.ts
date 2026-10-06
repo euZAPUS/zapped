@@ -1,3 +1,4 @@
+import { CODE_LANG_IDS, type CodeLang } from '../data/snippets';
 import type { LangId } from '../data/words';
 import type { Mode } from '../engine/types';
 import { KEYS, readJSON, writeJSON } from '../storage/local';
@@ -13,6 +14,8 @@ export interface ResultRecord {
   punctuation: boolean;
   numbers: boolean;
   accents: boolean;
+  /** Programming language, only for code mode. */
+  code?: CodeLang;
   stopOnError: boolean;
   wpm: number;
   raw: number;
@@ -42,7 +45,7 @@ export function sanitizeRecord(raw: unknown): ResultRecord | null {
   if (typeof raw !== 'object' || raw === null) return null;
   const r = raw as Record<string, unknown>;
   const n = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
-  const mode = r.mode === 'time' || r.mode === 'words' || r.mode === 'custom' ? r.mode : null;
+  const mode = r.mode === 'time' || r.mode === 'words' || r.mode === 'custom' || r.mode === 'code' ? r.mode : null;
   const language = r.language === 'es' || r.language === 'en' || r.language === 'cyber' || r.language === 'c42' ? r.language : null;
   const at = n(r.at);
   const wpm = n(r.wpm);
@@ -58,6 +61,7 @@ export function sanitizeRecord(raw: unknown): ResultRecord | null {
     punctuation: r.punctuation === true,
     numbers: r.numbers === true,
     accents: r.accents !== false,
+    code: CODE_LANG_IDS.includes(r.code as CodeLang) ? (r.code as CodeLang) : undefined,
     stopOnError: r.stopOnError === true,
     wpm,
     raw: n(r.raw) ?? wpm,
