@@ -2,7 +2,7 @@
 # release workflow (.github/workflows/release.yml).
 appId: com.euzapus.zapper-aio
 productName: zapper-aio
-copyright: Copyright © 2026 euZAPUS
+copyright: Copyright © 2026 euZAPUS. All rights reserved.
 
 directories:
   output: release
@@ -13,6 +13,7 @@ files:
   - desktop/dist/**
   - build/icon.png
   - package.json
+  - LICENSE
 
 # The updater reads this feed: every GitHub Release created by the workflow.
 publish:
