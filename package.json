@@ -1,7 +1,7 @@
 {
   "name": "zapped",
   "productName": "zapper-aio",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "zapped — un test de mecanografía animado y personalizable, también como app de escritorio (zapper-aio).",
   "author": {
