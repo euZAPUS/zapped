@@ -82,12 +82,51 @@ const wordsOnScreen = (page, n) => page.$$eval('.word', (els, k) => els.slice(0,
   await shot(page, 'result');
   await ctx.close();
 }
-// 4 · code in custom mode
+// 4 · code mode
 {
-  const code = `#include <unistd.h>\n\nvoid\tft_putchar(char c)\n{\n\twrite(1, &c, 1);\n}\n\nint\tmain(void)\n{\n\tft_putchar('4');\n\tft_putchar('2');\n\treturn (0);\n}`;
-  const { ctx, page } = await open({ theme: 'marea', mode: 'custom', customText: code, caret: 'underline' });
-  await page.keyboard.type('#include <unistd.h>\nvoid ft_putchar(char c)\n{\nwrite(1, &c');
+  const { ctx, page } = await open({ theme: 'marea', mode: 'code', codeLang: 'c', caret: 'underline' });
+  const words = await page.$$eval('.word', (els) => els.map((e) => ({ t: [...e.querySelectorAll('.l:not(.nl)')].map((l) => l.textContent).join(''), nl: !!e.querySelector('.nl') })));
+  for (const w of words.slice(0, 11)) {
+    await page.keyboard.type(w.t, { delay: 12 });
+    await page.keyboard.press(w.nl ? 'Enter' : 'Space');
+  }
   await shot(page, 'code');
+  await ctx.close();
+}
+// 4b · command palette
+{
+  const { ctx, page } = await open({ theme: 'noctiluca' });
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(500);
+  await shot(page, 'palette');
+  await ctx.close();
+}
+// 4c · palette previewing a theme live
+{
+  const { ctx, page } = await open({ theme: 'voltio' });
+  await page.keyboard.press('Escape');
+  await page.keyboard.type('tema');
+  await page.keyboard.press('Enter');
+  for (let i = 0; i < 3; i++) await page.keyboard.press('ArrowDown');
+  await shot(page, 'palette-theme');
+  await ctx.close();
+}
+// 4d · desktop auto-update screen (simulated bridge)
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    let cb = () => {};
+    window.zapperDesktop = {
+      version: '1.0.0', platform: 'win32', checkForUpdates: async () => {}, installUpdate() {},
+      lastUpdateStatus: async () => ({ state: 'idle' }), onUpdateStatus: (fn) => { cb = fn; return () => {}; },
+      writeBackup: async () => {}, readBackup: async () => null,
+    };
+    setTimeout(() => cb({ state: 'downloading', version: '1.1.0', percent: 64, auto: true }), 400);
+  });
+  await page.goto(url);
+  await page.waitForTimeout(900);
+  await shot(page, 'update');
   await ctx.close();
 }
 // 5 · profile
@@ -100,9 +139,9 @@ const wordsOnScreen = (page, n) => page.$$eval('.word', (els, k) => els.slice(0,
 // 6 · settings drawer
 {
   const { ctx, page } = await open({ theme: 'brasa', background: 'aurora' });
-  await page.keyboard.press('Escape');
+  await page.click('#btn-settings');
   await page.waitForTimeout(700);
-  await page.evaluate(() => document.querySelector('.drawer-body').scrollTo(0, 640));
+  await page.evaluate(() => document.querySelector('.drawer-body').scrollTo(0, 700));
   await page.waitForTimeout(300);
   await shot(page, 'settings');
   await ctx.close();
