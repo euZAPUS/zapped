@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es" data-theme="voltio" data-font="jetbrains">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>zapped · mecanografía con chispa</title>
+    <meta name="description" content="Un test de mecanografía animado y personalizable. Español, inglés, ciberseguridad y C. Sin backend, con sincronización opcional vía gist." />
+    <meta name="theme-color" content="#0c0d1f" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="bg" class="bg" aria-hidden="true"></div>
+    <div id="glow" class="glow" aria-hidden="true"></div>
+
+    <div class="app" id="app">
+      <header class="topbar chrome">
+        <a class="logo" href="#/" aria-label="zapped, ir al test">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13.5 2 4 14h6.5L9 22l11-13h-7z" fill="currentColor" /></svg>
+          <span>zapped</span>
+        </a>
+        <nav class="nav" aria-label="Principal">
+          <a href="#/" class="nav-link" data-route="test">Test</a>
+          <a href="#/perfil" class="nav-link" data-route="profile">Perfil</a>
+        </nav>
+        <div class="topbar-actions">
+          <button id="btn-sync" class="sync-chip" type="button" hidden></button>
+          <button id="btn-settings" class="icon-btn" type="button" aria-label="Abrir ajustes (Esc)" title="Ajustes (Esc)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <path d="M4 6h9M17 6h3M4 12h3M11 12h9M4 18h11M19 18h1" /><circle cx="15" cy="6" r="2" /><circle cx="9" cy="12" r="2" /><circle cx="17" cy="18" r="2" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="main" class="main">
+        <section id="view-test" class="view" data-view="test" aria-label="Test de mecanografía">
+          <div id="dock" class="dock chrome"></div>
+
+          <div class="stage" id="stage">
+            <div id="live" class="live" aria-hidden="true"></div>
+            <div id="words-wrap" class="words-wrap">
+              <div class="viewport" id="viewport">
+                <div class="inner" id="inner" aria-hidden="true"></div>
+              </div>
+              <textarea
+                id="capture" class="capture" rows="1"
+                aria-label="Escribe aquí el texto que aparece en pantalla"
+                autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
+              ></textarea>
+              <button id="focus-hint" class="focus-hint" type="button">Haz clic o pulsa una tecla para continuar</button>
+            </div>
+            <div id="result" class="result" hidden></div>
+          </div>
+
+          <p class="hints chrome" id="hints">
+            <span><kbd>Tab</kbd> reiniciar</span>
+            <span><kbd>Ctrl</kbd>+<kbd>⌫</kbd> borrar palabra</span>
+            <span><kbd>Esc</kbd> ajustes</span>
+            <span class="hint-result"><kbd>Enter</kbd> siguiente test</span>
+          </p>
+        </section>
+
+        <section id="view-profile" class="view" data-view="profile" aria-label="Perfil y estadísticas" hidden></section>
+      </main>
+
+      <footer class="footer chrome">
+        <span>zapped · tus datos se quedan en tu navegador</span>
+        <a href="https://github.com/euZAPUS/zapped" target="_blank" rel="noopener noreferrer">Código en GitHub</a>
+      </footer>
+    </div>
+
+    <noscript><p style="padding:2rem;color:#fff">zapped necesita JavaScript para funcionar.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
