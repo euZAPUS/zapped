@@ -179,27 +179,32 @@ export class TextView {
     }
   }
 
-  /** Where the caret currently is, in inner coordinates. */
+  /**
+   * Where the caret currently is, in inner coordinates.
+   * Measured with bounding rects (relative to the inner box, so scrolling cancels out)
+   * instead of offsetLeft/offsetTop: those change meaning when a word is mid-blur
+   * (focus mode) or a letter is mid-animation.
+   */
   caretPoint(): { x: number; y: number; w: number; h: number } {
     const w = this.words[this.current];
     if (!w || w.letters.length === 0) return { x: 0, y: 0, w: 0, h: 0 };
+    const base = this.inner.getBoundingClientRect();
+    const word = w.el.getBoundingClientRect();
     const idx = this.charIndex;
-    let target: HTMLElement;
-    let atEnd = false;
+    const y = word.top - base.top;
+    const letterW = word.width / Math.max(1, w.letters.length + (w.nl ? 0.6 : 0));
+
     if (idx < w.letters.length) {
-      target = w.letters[idx] as HTMLElement;
-    } else if (w.nl) {
-      target = w.nl;
-    } else {
-      target = w.letters[w.letters.length - 1] as HTMLElement;
-      atEnd = true;
+      const r = (w.letters[idx] as HTMLElement).getBoundingClientRect();
+      // a letter that is popping is scaled; its un-scaled box starts at the word start + idx glyphs
+      const x = r.width > letterW * 1.05 ? word.left - base.left + idx * letterW : r.left - base.left;
+      return { x, y, w: letterW, h: word.height };
     }
-    return {
-      x: target.offsetLeft + (atEnd ? target.offsetWidth : 0),
-      y: target.offsetTop,
-      w: target.offsetWidth,
-      h: target.offsetHeight,
-    };
+    if (w.nl) {
+      const r = w.nl.getBoundingClientRect();
+      return { x: r.left - base.left, y, w: r.width, h: word.height };
+    }
+    return { x: word.right - base.left, y, w: letterW, h: word.height };
   }
 
   private placeCaret(): void {

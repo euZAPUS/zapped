@@ -91,10 +91,6 @@ export class TestEngine {
     return rawWpm(analyze(this.targets(), this.typed, this.current), secs);
   }
 
-  progress(): number {
-    return this.current;
-  }
-
   /** Called regularly by the host; ends time-mode tests and records per-second samples. */
   tick(now: number): void {
     if (this.status !== 'running') return;
