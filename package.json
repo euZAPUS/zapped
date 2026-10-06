@@ -27,7 +27,9 @@
     "desktop": "npm run build && npm run desktop:compile && electron .",
     "desktop:pack": "npm run build && npm run desktop:compile && electron-builder --dir",
     "desktop:dist": "npm run build && npm run desktop:compile && electron-builder --publish never",
-    "notices": "node scripts/third-party-notices.mjs"
+    "notices": "node scripts/third-party-notices.mjs",
+    "promo:css": "vite build --config promo/vite.config.mjs",
+    "promo": "npm run promo:css && node promo/render.mjs --cues-only && python3 promo/audio.py && node promo/render.mjs --fps 60"
   },
   "dependencies": {
     "electron-updater": "^6.8.9"
