@@ -12,6 +12,18 @@ Español, inglés, ciberseguridad, C (al estilo 42) y modo código · barra de c
 
 ---
 
+## Descargar
+
+**[⬇ Descargar la última versión](https://github.com/euZAPUS/zapped/releases/latest)** y elige el archivo de tu sistema:
+
+| Sistema | Archivo | Cómo se instala |
+|---|---|---|
+| **Windows** | `zapper-aio-Setup-<versión>.exe` | Doble clic y sigue el asistente. Si Windows muestra «Windows protegió su PC», pulsa **Más información → Ejecutar de todas formas** (el instalador aún no está firmado). |
+| **macOS** (Apple Silicon) | `zapper-aio-<versión>-arm64.dmg` | Ábrelo y arrastra la app a Aplicaciones. La primera vez, clic derecho → Abrir. |
+| **Linux** | `zapper-aio-<versión>.AppImage` | Dale permiso de ejecución y ábrelo. |
+
+Una vez instalada **se actualiza sola** al abrirla y guarda tus datos en tu usuario. También puedes usarlo directamente en el navegador, sin instalar nada: **https://euzapus.github.io/zapped/**
+
 ## Características
 
 **Test**
