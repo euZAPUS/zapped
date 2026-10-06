@@ -250,4 +250,8 @@ Foco de teclado siempre visible, ajustes y diálogos con `<dialog>` nativo (foco
 
 ## Licencia
 
-[MIT](LICENSE)
+**Todos los derechos reservados** © 2026 euZAPUS. El código es visible en GitHub (se puede ver y hacer fork en GitHub, como permiten sus términos) y la web y las versiones oficiales se pueden usar de forma personal y no comercial, pero **no se puede copiar, modificar, redistribuir, vender ni reutilizar en otros productos sin permiso por escrito**. Texto completo en [LICENSE](LICENSE).
+
+Las fuentes (SIL OFL 1.1), Electron y demás componentes de terceros mantienen sus propias licencias; están recogidas en [`public/THIRD_PARTY_NOTICES.txt`](public/THIRD_PARTY_NOTICES.txt), que también se sirve con la web (`/THIRD_PARTY_NOTICES.txt`) y viaja dentro del instalador. Se regenera con `npm run notices`.
+
+> La versión 1.0.0 se publicó bajo licencia MIT; quien la obtuvo antes de este cambio conserva los derechos que esa licencia le dio sobre *esa* copia. Las versiones posteriores son propietarias.
