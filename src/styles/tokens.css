@@ -1,0 +1,68 @@
+/* Design tokens: themes, fonts and shared scales.
+   Every theme is just a set of custom properties; components never hard-code colours. */
+
+:root {
+  --font-ui: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  --radius-s: 8px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --fs: 28px; /* test text size, set from settings */
+  --lh: calc(var(--fs) * 1.75);
+
+  /* default theme: Voltio */
+  --bg: #0c0d1f;
+  --bg-2: #15173a;
+  --surface: #14162d;
+  --surface-2: #1c1f3d;
+  --border: #2a2e57;
+  --fg: #e8ebff;
+  --sub: #6a70a3;
+  --muted: #9aa0d0;
+  --accent: #c6ff3d;
+  --accent-2: #7a6bff;
+  --on-accent: #0c0d1f;
+  --err: #ff5c7a;
+  color-scheme: dark;
+}
+
+:root[data-theme='voltio'] { /* same as default; kept explicit so the attribute always matches */
+  --bg: #0c0d1f; --bg-2: #15173a; --surface: #14162d; --surface-2: #1c1f3d; --border: #2a2e57;
+  --fg: #e8ebff; --sub: #6a70a3; --muted: #9aa0d0; --accent: #c6ff3d; --accent-2: #7a6bff;
+  --on-accent: #0c0d1f; --err: #ff5c7a; color-scheme: dark;
+}
+:root[data-theme='brasa'] {
+  --bg: #130f0d; --bg-2: #2a1a12; --surface: #1c1613; --surface-2: #261e19; --border: #3a2d25;
+  --fg: #f6ebe0; --sub: #86705f; --muted: #b39d8b; --accent: #ff7a2f; --accent-2: #ffc15c;
+  --on-accent: #1a0f08; --err: #ff3d6e; color-scheme: dark;
+}
+:root[data-theme='marea'] {
+  --bg: #06161c; --bg-2: #0b3340; --surface: #0b232c; --surface-2: #11323e; --border: #1c4756;
+  --fg: #def5f6; --sub: #4f8593; --muted: #86b5c0; --accent: #2de2c8; --accent-2: #3aa0ff;
+  --on-accent: #04201c; --err: #ff6b81; color-scheme: dark;
+}
+:root[data-theme='noctiluca'] {
+  --bg: #120a1f; --bg-2: #2a1450; --surface: #1a1030; --surface-2: #231642; --border: #382260;
+  --fg: #f3e9ff; --sub: #7e66a8; --muted: #b09bd4; --accent: #ff4fd8; --accent-2: #8a5cff;
+  --on-accent: #20061c; --err: #ff8a5c; color-scheme: dark;
+}
+:root[data-theme='papel'] {
+  --bg: #f6efe2; --bg-2: #e9dcc2; --surface: #fffaf0; --surface-2: #f1e8d6; --border: #dccfb4;
+  --fg: #1d2a44; --sub: #968a72; --muted: #6b6350; --accent: #2447d6; --accent-2: #e8590c;
+  --on-accent: #ffffff; --err: #d6336c; color-scheme: light;
+}
+:root[data-theme='escarcha'] {
+  --bg: #eef5fb; --bg-2: #d3e6f5; --surface: #ffffff; --surface-2: #e3eef8; --border: #c6d9e8;
+  --fg: #17324d; --sub: #7a93a9; --muted: #52708a; --accent: #0a8fb0; --accent-2: #6a5acd;
+  --on-accent: #ffffff; --err: #e5484d; color-scheme: light;
+}
+
+:root[data-font='jetbrains'] { --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='fira'] { --font-mono: 'Fira Code', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='plex'] { --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='space'] { --font-mono: 'Space Mono', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='system'] { --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace; }
