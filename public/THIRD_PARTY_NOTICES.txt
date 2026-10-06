@@ -1,6 +1,6 @@
 THIRD-PARTY NOTICES
 ===================
-zapped / zapper-aio is proprietary software (see LICENSE). It includes the third-party
+zapped is proprietary software (see LICENSE). It includes the third-party
 components below, which remain under their own licenses.
 
 FONTS (SIL Open Font License 1.1, via @fontsource)

@@ -11,7 +11,7 @@ export function mountUpdaterUi(): void {
   if (!desktop) return;
   const bridge = desktop;
 
-  const title = h('h2', {}, 'Actualizando zapper-aio');
+  const title = h('h2', {}, 'Actualizando zapped');
   const detail = h('p', { class: 'muted' });
   const bar = h('i', {});
   const overlay = h(
@@ -48,9 +48,9 @@ export function mountUpdaterUi(): void {
       overlay.querySelector('.update-bar')?.setAttribute('aria-valuenow', String(pct));
       if (s.state === 'downloaded') {
         title.textContent = 'Reiniciando…';
-        detail.textContent = `La versión${v} está lista. zapper-aio se reabrirá solo en un momento.`;
+        detail.textContent = `La versión${v} está lista. zapped se reabrirá solo en un momento.`;
       } else {
-        title.textContent = 'Actualizando zapper-aio';
+        title.textContent = 'Actualizando zapped';
         detail.textContent = s.state === 'available' ? `Nueva versión${v} encontrada…` : `Descargando la versión${v} · ${pct}%`;
       }
     }

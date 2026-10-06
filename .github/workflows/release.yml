@@ -1,7 +1,7 @@
 name: Release desktop app
 
 # Publishing a version:  npm version patch && git push origin main --follow-tags
-# This builds the zapper-aio installers and attaches them to a GitHub Release.
+# This builds the zapped installers and attaches them to a GitHub Release.
 # Installed apps find that release on launch, download it and restart themselves.
 
 on:
@@ -38,7 +38,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release view "${{ steps.tag.outputs.tag }}" >/dev/null 2>&1 || \
-            gh release create "${{ steps.tag.outputs.tag }}" --title "zapper-aio ${{ steps.tag.outputs.tag }}" --generate-notes --target "${GITHUB_SHA}"
+            gh release create "${{ steps.tag.outputs.tag }}" --title "zapped ${{ steps.tag.outputs.tag }}" --generate-notes --target "${GITHUB_SHA}"
 
   build:
     needs: release

@@ -1,7 +1,7 @@
-# Builds the zapper-aio desktop app. Run through `npm run desktop:dist` or the
+# Builds the zapped desktop app. Run through `npm run desktop:dist` or the
 # release workflow (.github/workflows/release.yml).
-appId: com.euzapus.zapper-aio
-productName: zapper-aio
+appId: com.euzapus.zapped
+productName: zapped
 copyright: Copyright © 2026 euZAPUS. All rights reserved.
 
 directories:
@@ -26,7 +26,7 @@ win:
   target:
     - target: nsis
       arch: [x64]
-  artifactName: zapper-aio-Setup-${version}.${ext}
+  artifactName: zapped-Setup-${version}.${ext}
 
 nsis:
   oneClick: false
@@ -34,18 +34,18 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
-  shortcutName: zapper-aio
+  shortcutName: zapped
   # Uninstalling or updating never touches the user's data (history, settings).
   deleteAppDataOnUninstall: false
 
 linux:
-  executableName: zapper-aio
+  executableName: zapped
   target: [AppImage]
   category: Utility
-  artifactName: zapper-aio-${version}.${ext}
+  artifactName: zapped-${version}.${ext}
 
 mac:
   target: [dmg, zip]
   category: public.app-category.productivity
   identity: null # unsigned: macOS cannot auto-update unsigned apps, see README
-  artifactName: zapper-aio-${version}-${arch}.${ext}
+  artifactName: zapped-${version}-${arch}.${ext}
