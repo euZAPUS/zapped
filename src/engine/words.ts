@@ -5,9 +5,17 @@ export interface GenOptions {
   language: LangId;
   /** Keep accents (Spanish). When false they are stripped, ñ is preserved. */
   accents: boolean;
+  /** Keep ñ. When false it is typed as n (Spanish). Defaults to true. */
+  enye?: boolean;
+  /** Wrap Spanish questions and exclamations in ¿? and ¡!. Defaults to true. */
+  invertedMarks?: boolean;
   punctuation: boolean;
   numbers: boolean;
   rng?: () => number;
+}
+
+export function stripEnye(text: string): string {
+  return text.replace(/ñ/g, 'n').replace(/Ñ/g, 'N');
 }
 
 /** Removes diacritics but keeps ñ/Ñ, which has its own key on Spanish keyboards. */
@@ -33,7 +41,7 @@ function randomNumber(rng: () => number): string {
 }
 
 /** Applies punctuation to a flat list of tokens, in place. */
-function punctuate(tokens: string[], lang: LangId, rng: () => number): string[] {
+function punctuate(tokens: string[], lang: LangId, rng: () => number, invertedMarks: boolean): string[] {
   const code = lang === 'c42';
   const prose = lang === 'es' || lang === 'en';
   const out = tokens.slice();
@@ -58,7 +66,7 @@ function punctuate(tokens: string[], lang: LangId, rng: () => number): string[] 
         w = `(${w})`;
       } else if (r < 0.28) {
         const end = pick(PROSE_ENDINGS, rng);
-        if (lang === 'es' && (end === '?' || end === '!')) {
+        if (lang === 'es' && invertedMarks && (end === '?' || end === '!')) {
           // Spanish brackets questions and exclamations
           w = (end === '?' ? '¿' : '¡') + w + end;
         } else {
@@ -76,7 +84,11 @@ function punctuate(tokens: string[], lang: LangId, rng: () => number): string[] 
 export function generateWords(count: number, opts: GenOptions): WordSlot[] {
   const rng = opts.rng ?? Math.random;
   const list = LANGUAGES[opts.language];
-  const pool = opts.language === 'es' && !opts.accents ? list.words.map(stripAccents) : list.words;
+  let pool = list.words;
+  if (opts.language === 'es') {
+    if (!opts.accents) pool = pool.map(stripAccents);
+    if (opts.enye === false) pool = pool.map(stripEnye);
+  }
   const tokens: string[] = [];
   let previous = '';
 
@@ -99,7 +111,7 @@ export function generateWords(count: number, opts: GenOptions): WordSlot[] {
   }
 
   const finalTokens = tokens.slice(0, count);
-  const punctuated = opts.punctuation ? punctuate(finalTokens, opts.language, rng) : finalTokens;
+  const punctuated = opts.punctuation ? punctuate(finalTokens, opts.language, rng, opts.invertedMarks !== false) : finalTokens;
   return punctuated.map((text) => ({ text, sep: ' ' as const, indent: 0 }));
 }
 

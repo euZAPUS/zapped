@@ -79,5 +79,5 @@
 }
 .glow.broken { transition-duration: 0.18s, 0.3s; }
 
-:root[data-theme='papel'] .bg .blob, :root[data-theme='escarcha'] .bg .blob { opacity: 0.2; }
-:root[data-theme='papel'] .bg .blob:nth-child(3), :root[data-theme='escarcha'] .bg .blob:nth-child(3) { opacity: 0.8; }
+:root[data-theme='papel'] .bg .blob, :root[data-theme='escarcha'] .bg .blob, :root[data-theme='menta'] .bg .blob { opacity: 0.2; }
+:root[data-theme='papel'] .bg .blob:nth-child(3), :root[data-theme='escarcha'] .bg .blob:nth-child(3), :root[data-theme='menta'] .bg .blob:nth-child(3) { opacity: 0.8; }

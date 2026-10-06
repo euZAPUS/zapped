@@ -7,6 +7,9 @@ import { currentRoute, mountRouter } from './app/router';
 import { TestController } from './app/test-controller';
 import { mountProfile } from './app/profile';
 import { sync } from './sync/sync-manager';
+import { mountPalette } from './app/palette';
+import { mountDesktopBackup } from './app/desktop-backup';
+import { mountUpdaterUi } from './app/updater-ui';
 import { mountDock } from './render/dock';
 import { Effects } from './render/effects';
 import { TextView } from './render/text-view';
@@ -46,19 +49,32 @@ settingsModal = mountSettings({
 });
 byId('btn-settings').addEventListener('click', () => settingsModal.open());
 
+const palette = mountPalette({
+  newTest: (repeat) => controller.newTest(repeat),
+  openSettings: () => settingsModal.open(),
+  editText: () => customDialog.open(),
+  goto: (route) => (location.hash = route === 'profile' ? '#/perfil' : '#/'),
+  onClose: () => requestAnimationFrame(focusCapture),
+});
+
 // Settings that change the text itself start a new test; the rest only restyle it.
-const RESTART_KEYS = ['mode', 'time', 'words', 'language', 'accents', 'punctuation', 'numbers', 'customText', 'stopOnError'];
+const RESTART_KEYS = [
+  'mode', 'time', 'words', 'language', 'accents', 'enye', 'invertedMarks', 'codeLang',
+  'punctuation', 'numbers', 'customText', 'stopOnError',
+];
 settings.subscribe((s, changed) => {
   if (changed.some((k) => RESTART_KEYS.includes(k))) controller.newTest();
   if (changed.includes('focusMode')) view.setFocusMode(s.focusMode);
   if (changed.some((k) => k === 'fontSize' || k === 'font' || k === 'caret')) view.relayout();
 });
 
+window.addEventListener('zapped:relayout', () => view.relayout());
+
 bindKeyboard({
   controller,
   capture,
   isTestView: () => currentRoute() === 'test',
-  openSettings: () => settingsModal.open(),
+  openSettings: () => palette.open(),
   isDialogOpen,
 });
 
@@ -106,3 +122,7 @@ sync.start();
 
 controller.newTest();
 focusCapture();
+
+// Desktop app only (no-ops in the browser): update screen and on-disk data copy.
+mountUpdaterUi();
+void mountDesktopBackup();

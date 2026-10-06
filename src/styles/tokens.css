@@ -50,6 +50,11 @@
   --fg: #f3e9ff; --sub: #7e66a8; --muted: #b09bd4; --accent: #ff4fd8; --accent-2: #8a5cff;
   --on-accent: #20061c; --err: #ff8a5c; color-scheme: dark;
 }
+:root[data-theme='ambar'] {
+  --bg: #100c04; --bg-2: #2b1a04; --surface: #1a1306; --surface-2: #241a09; --border: #3d2b0d;
+  --fg: #ffe9b8; --sub: #8a7140; --muted: #c4a766; --accent: #ffb000; --accent-2: #ff6a00;
+  --on-accent: #1a1000; --err: #ff5252; color-scheme: dark;
+}
 :root[data-theme='papel'] {
   --bg: #f6efe2; --bg-2: #e9dcc2; --surface: #fffaf0; --surface-2: #f1e8d6; --border: #dccfb4;
   --fg: #1d2a44; --sub: #857a62; --muted: #6b6350; --accent: #2447d6; --accent-2: #e8590c;
@@ -61,8 +66,17 @@
   --on-accent: #ffffff; --err: #cf2a35; color-scheme: light;
 }
 
+:root[data-theme='menta'] {
+  --bg: #eef8f1; --bg-2: #cfeadb; --surface: #ffffff; --surface-2: #e0f1e6; --border: #bddcc9;
+  --fg: #143a2b; --sub: #5f8574; --muted: #3f6654; --accent: #0a7d52; --accent-2: #c2410c;
+  --on-accent: #ffffff; --err: #c8243b; color-scheme: light;
+}
+
 :root[data-font='jetbrains'] { --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace; }
 :root[data-font='fira'] { --font-mono: 'Fira Code', ui-monospace, Menlo, Consolas, monospace; }
 :root[data-font='plex'] { --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; }
 :root[data-font='space'] { --font-mono: 'Space Mono', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='source'] { --font-mono: 'Source Code Pro', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='roboto'] { --font-mono: 'Roboto Mono', ui-monospace, Menlo, Consolas, monospace; }
+:root[data-font='inconsolata'] { --font-mono: 'Inconsolata', ui-monospace, Menlo, Consolas, monospace; }
 :root[data-font='system'] { --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace; }

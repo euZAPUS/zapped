@@ -1,4 +1,4 @@
-export type Mode = 'time' | 'words' | 'custom';
+export type Mode = 'time' | 'words' | 'custom' | 'code';
 
 /** One word of the target text plus what has to be typed after it. */
 export interface WordSlot {

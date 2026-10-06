@@ -10,33 +10,53 @@ function onAccent(hex: string): string {
   return lum > 0.4 ? '#0b0b12' : '#ffffff';
 }
 
-/** Mirrors visual settings onto the document: theme, fonts, accent, motion, background. */
-export function mountAppearance(inner: HTMLElement): void {
-  const root = document.documentElement;
-  const glow = byId('glow');
+const root = document.documentElement;
 
-  const apply = (s: Settings): void => {
-    root.dataset.theme = s.theme;
-    root.dataset.font = s.font;
-    root.dataset.motion = s.motion;
-    root.style.setProperty('--fs', `${s.fontSize}px`);
-    if (s.accent) {
-      root.style.setProperty('--accent', s.accent);
-      root.style.setProperty('--on-accent', onAccent(s.accent));
-    } else {
-      root.style.removeProperty('--accent');
-      root.style.removeProperty('--on-accent');
-    }
-    root.classList.toggle('dim-ui', s.dimUi);
-    glow.hidden = !s.glow;
+/** Sets or clears a custom property depending on whether an override exists. */
+function override(name: string, value: string | null): void {
+  if (value) root.style.setProperty(name, value);
+  else root.style.removeProperty(name);
+}
+
+let inner: HTMLElement | null = null;
+
+function apply(s: Settings): void {
+  root.dataset.theme = s.theme;
+  root.dataset.font = s.font;
+  root.dataset.motion = s.motion;
+  root.style.setProperty('--fs', `${s.fontSize}px`);
+  override('--accent', s.accent);
+  override('--on-accent', s.accent ? onAccent(s.accent) : null);
+  override('--fg', s.colorFg);
+  override('--sub', s.colorSub);
+  override('--err', s.colorErr);
+  root.classList.toggle('dim-ui', s.dimUi);
+  byId('glow').hidden = !s.glow;
+  if (inner) {
     inner.dataset.caret = s.caret;
     inner.classList.toggle('smooth', s.smoothCaret);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute(
-      'content',
-      getComputedStyle(root).getPropertyValue('--bg').trim() || THEMES[0]?.swatch[0] || '#0c0d1f',
-    );
-  };
+  }
+  document.querySelector('meta[name="theme-color"]')?.setAttribute(
+    'content',
+    getComputedStyle(root).getPropertyValue('--bg').trim() || THEMES[0]?.swatch[0] || '#0c0d1f',
+  );
+}
 
+/** Shows how a visual change would look without saving it (command palette hover). */
+export function previewAppearance(patch: Partial<Settings>): void {
+  apply({ ...settings.get(), ...patch });
+  window.dispatchEvent(new Event('zapped:relayout'));
+}
+
+/** Drops any preview and goes back to the saved look. */
+export function clearPreview(): void {
+  apply(settings.get());
+  window.dispatchEvent(new Event('zapped:relayout'));
+}
+
+/** Mirrors visual settings onto the document: theme, fonts, colours, motion, background. */
+export function mountAppearance(textInner: HTMLElement): void {
+  inner = textInner;
   settings.subscribe((s, changed) => {
     apply(s);
     if (changed.some((k) => k.startsWith('bg') || k === 'background')) applyBackground(s);

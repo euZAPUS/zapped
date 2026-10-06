@@ -1,3 +1,4 @@
+import { CODE_LANG_IDS, CODE_LANGS } from '../data/snippets';
 import { LANGUAGE_IDS, LANGUAGES, type LangId } from '../data/words';
 import { TIME_OPTIONS, WORD_OPTIONS, type Settings } from '../settings/schema';
 import { settings } from '../settings/store';
@@ -7,6 +8,7 @@ import { segmented } from '../ui/segmented';
 const MODE_LABELS = [
   { value: 'time' as const, label: 'tiempo' },
   { value: 'words' as const, label: 'palabras' },
+  { value: 'code' as const, label: 'código' },
   { value: 'custom' as const, label: 'texto' },
 ];
 
@@ -26,6 +28,13 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
     'Lista de palabras',
   );
 
+  const code = segmented(
+    CODE_LANG_IDS.map((id) => ({ value: id, label: CODE_LANGS[id].label })),
+    s0.codeLang,
+    (codeLang) => change({ codeLang }),
+    'Lenguaje de código',
+  );
+
   const toggle = (label: string, key: 'punctuation' | 'numbers' | 'accents', title: string): HTMLButtonElement => {
     const b = h('button', { class: 'pill', type: 'button', 'aria-pressed': String(s0[key]), title }, label);
     b.addEventListener('click', () => change({ [key]: !settings.get()[key] }));
@@ -39,6 +48,7 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
   const timeGroup = h('div', { class: 'group' }, time.el);
   const wordsGroup = h('div', { class: 'group' }, words.el);
   const customGroup = h('div', { class: 'group' }, edit);
+  const codeGroup = h('div', { class: 'group' }, code.el);
   const langGroup = h('div', { class: 'group' }, lang.el);
   const optGroup = h('div', { class: 'group' }, punct, nums, accents);
   const d1 = h('span', { class: 'divider', 'aria-hidden': 'true' });
@@ -46,7 +56,7 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
   const d3 = h('span', { class: 'divider', 'aria-hidden': 'true' });
 
   clear(root);
-  root.append(h('div', { class: 'group' }, mode.el), d1, timeGroup, wordsGroup, customGroup, d2, langGroup, d3, optGroup);
+  root.append(h('div', { class: 'group' }, mode.el), d1, timeGroup, wordsGroup, codeGroup, customGroup, d2, langGroup, d3, optGroup);
 
   function change(patch: Partial<Settings>): void {
     settings.set(patch);
@@ -58,6 +68,7 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
     time.set(s.time);
     words.set(s.words);
     lang.set(s.language);
+    code.set(s.codeLang);
     punct.setAttribute('aria-pressed', String(s.punctuation));
     nums.setAttribute('aria-pressed', String(s.numbers));
     accents.setAttribute('aria-pressed', String(s.accents));
@@ -65,11 +76,12 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
     timeGroup.hidden = s.mode !== 'time';
     wordsGroup.hidden = s.mode !== 'words';
     customGroup.hidden = s.mode !== 'custom';
-    const custom = s.mode === 'custom';
-    langGroup.hidden = custom;
-    optGroup.hidden = custom;
-    d2.hidden = custom;
-    d3.hidden = custom;
+    codeGroup.hidden = s.mode !== 'code';
+    const fixedText = s.mode === 'custom' || s.mode === 'code'; // no word list, no punctuation options
+    langGroup.hidden = fixedText;
+    optGroup.hidden = fixedText;
+    d2.hidden = fixedText;
+    d3.hidden = fixedText;
     accents.hidden = s.language !== 'es';
     edit.textContent = s.customText.trim() ? 'Editar texto' : 'Pegar texto';
     // re-measure indicators now that groups changed visibility
@@ -77,6 +89,7 @@ export function mountDock(root: HTMLElement, opts: { editText: () => void; after
       time.set(s.time);
       words.set(s.words);
       lang.set(s.language);
+      code.set(s.codeLang);
     });
   };
   settings.subscribe((s) => sync(s));

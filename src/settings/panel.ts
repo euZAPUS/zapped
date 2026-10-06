@@ -1,3 +1,4 @@
+import { buildAboutSection } from '../app/about-section';
 import { buildDataSection } from '../app/data-section';
 import { sound } from '../audio/sound';
 import { applyBackground } from '../render/background';
@@ -20,6 +21,7 @@ import {
 import { settings } from './store';
 
 type Updater = (s: Settings) => void;
+type BoolKey = { [K in keyof Settings]: Settings[K] extends boolean ? K : never }[keyof Settings];
 
 const ACCENT_PRESETS = ['#c6ff3d', '#ff7a2f', '#2de2c8', '#ff4fd8', '#3aa0ff', '#ffd23f', '#ff5c7a', '#a78bfa'];
 
@@ -50,7 +52,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
   };
   const s0 = settings.get();
 
-  const toggleRow = (key: keyof Settings & ('stopOnError' | 'liveStats' | 'smoothCaret' | 'pop' | 'sparks' | 'glow' | 'dimUi' | 'focusMode' | 'errorSound'), label: string, hint?: string): HTMLElement => {
+  const toggleRow = (key: BoolKey, label: string, hint?: string): HTMLElement => {
     const id = `lbl-${key}`;
     const sw = switchControl(Boolean(s0[key]), (on) => settings.set({ [key]: on }), id);
     reg((s) => sw.set(Boolean(s[key])));
@@ -73,7 +75,12 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
   }
 
   // ---- Prueba
-  const testSection = section('Prueba', [
+  const testSection = section('Texto y prueba', [
+    toggleRow('accents', 'Tildes (á é í ó ú ü)', 'Si lo apagas, las palabras en español se escriben sin tildes.'),
+    toggleRow('enye', 'Eñe (ñ)', 'Si lo apagas, la ñ se escribe como n.'),
+    toggleRow('invertedMarks', 'Signos ¿ ¡', 'Con puntuación, abre las preguntas y exclamaciones como en español.'),
+    toggleRow('punctuation', 'Puntuación'),
+    toggleRow('numbers', 'Números'),
     toggleRow('stopOnError', 'No avanzar hasta acertar', 'Una letra incorrecta no se escribe y el cursor espera la correcta.'),
     toggleRow('liveStats', 'Mostrar ppm en vivo'),
   ]);
@@ -156,6 +163,25 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
     resetAccent.disabled = s.accent === null;
   });
 
+  const colorRow = (key: 'colorFg' | 'colorSub' | 'colorErr', label: string, cssVar: string, hint: string): HTMLElement => {
+    const input = h('input', { type: 'color', value: s0[key] ?? '#888888', 'aria-label': label });
+    input.addEventListener('input', () => settings.set({ [key]: input.value }));
+    const reset = h('button', { class: 'btn small', type: 'button', onclick: () => settings.set({ [key]: null }) }, 'Del tema');
+    reg((st) => {
+      // show the colour actually in use when there is no override
+      input.value = st[key] ?? (getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim() || '#888888');
+      reset.disabled = st[key] === null;
+    });
+    return row(label, h('div', { class: 'row' }, input, reset), hint);
+  };
+  const colorsBlock = h(
+    'div',
+    { class: 'subgroup' },
+    colorRow('colorFg', 'Texto acertado', '--fg', 'Las letras que ya has escrito bien.'),
+    colorRow('colorSub', 'Texto por escribir', '--sub', 'Lo que aún te queda por teclear.'),
+    colorRow('colorErr', 'Color de error', '--err', 'Letras falladas y palabras con errores.'),
+  );
+
   const fontButtons = FONTS.map((f) => {
     const btn = h(
       'button',
@@ -174,6 +200,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
     h('div', { class: 'theme-grid', role: 'group', 'aria-label': 'Tema' }, themeButtons),
     row('Color de acento', h('div', { class: 'row' }, accentInput, resetAccent), 'Se aplica por encima del tema.'),
     h('div', { class: 'presets', role: 'group', 'aria-label': 'Acentos rápidos' }, presets),
+    colorsBlock,
     h('div', { class: 'font-grid', role: 'group', 'aria-label': 'Tipografía' }, fontButtons),
     row('Tamaño del texto', size.el),
   ]);
@@ -248,6 +275,8 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
   // ---- Datos
   const dataSection = section('Datos y nube', [buildDataSection()]);
 
+  const aboutSection = section('Acerca de', [buildAboutSection()]);
+
   // ---- Atajos
   const shortcuts = section('Atajos', [
     h(
@@ -257,7 +286,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
         [
           ['Tab', 'Reinicia con palabras nuevas (también en modo texto; la sangría se salta sola)'],
           ['Ctrl + ⌫', 'Borra la palabra actual'],
-          ['Esc', 'Abre y cierra los ajustes'],
+          ['Esc', 'Abre la barra de comandos: busca cualquier opción, activa o desactiva ajustes y cambia tema, fuente, tiempo o modo al instante'],
           ['Enter', 'Tras el resultado, lanza otro test'],
         ] as const
       ).flatMap(([k, d]) => [h('dt', {}, h('kbd', {}, k)), h('dd', {}, d)]),
@@ -283,7 +312,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
         closeButton(() => modal.close()),
       ),
     ),
-    h('div', { class: 'drawer-body' }, testSection, effectsSection, soundSection, lookSection, bgSection, dataSection, shortcuts, h('div', { class: 'row end' }, reset)),
+    h('div', { class: 'drawer-body' }, testSection, effectsSection, soundSection, lookSection, bgSection, dataSection, shortcuts, aboutSection, h('div', { class: 'row end' }, reset)),
   );
   document.body.append(dialog);
 

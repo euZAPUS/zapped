@@ -1,10 +1,11 @@
+import { CODE_LANGS } from '../data/snippets';
 import { LANGUAGES } from '../data/words';
 import type { ResultRecord } from './history';
 
 /** Records are comparable when they share this key. */
 export function configKey(r: ResultRecord): string {
-  const parts: string[] = [r.mode === 'custom' ? 'custom' : `${r.mode}-${r.limit}`];
-  if (r.mode !== 'custom') {
+  const parts: string[] = [r.mode === 'custom' ? 'custom' : r.mode === 'code' ? `code-${r.code ?? 'c'}` : `${r.mode}-${r.limit}`];
+  if (r.mode === 'time' || r.mode === 'words') {
     parts.push(r.language);
     if (r.language === 'es' && !r.accents) parts.push('sin-tildes');
     if (r.punctuation) parts.push('punt');
@@ -15,6 +16,9 @@ export function configKey(r: ResultRecord): string {
 }
 
 export function describeConfig(r: ResultRecord): { title: string; detail: string } {
+  if (r.mode === 'code') {
+    return { title: 'Código', detail: [CODE_LANGS[r.code ?? 'c'].label, r.stopOnError ? 'estricto' : ''].filter(Boolean).join(' · ') };
+  }
   const title =
     r.mode === 'time' ? `Tiempo · ${r.limit} s` : r.mode === 'words' ? `Palabras · ${r.limit}` : 'Texto propio';
   if (r.mode === 'custom') return { title, detail: r.stopOnError ? 'estricto' : '' };
