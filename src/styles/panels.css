@@ -96,6 +96,9 @@ dialog::backdrop { background: color-mix(in srgb, var(--bg) 60%, transparent); b
 .font-sample[data-font='fira'] { font-family: 'Fira Code', monospace; }
 .font-sample[data-font='plex'] { font-family: 'IBM Plex Mono', monospace; }
 .font-sample[data-font='space'] { font-family: 'Space Mono', monospace; }
+.font-sample[data-font='source'] { font-family: 'Source Code Pro', monospace; }
+.font-sample[data-font='roboto'] { font-family: 'Roboto Mono', monospace; }
+.font-sample[data-font='inconsolata'] { font-family: 'Inconsolata', monospace; }
 .font-sample[data-font='system'] { font-family: ui-monospace, Menlo, Consolas, monospace; }
 
 /* Data section */

@@ -1,3 +1,4 @@
+import { CODE_LANG_IDS, type CodeLang } from '../data/snippets';
 import type { LangId } from '../data/words';
 import type { Mode } from '../engine/types';
 
@@ -5,7 +6,7 @@ export type CaretStyle = 'line' | 'block' | 'underline';
 export type SoundId = 'off' | 'click' | 'pop' | 'typewriter' | 'bubble';
 export type MotionPref = 'auto' | 'reduced' | 'full';
 export type BackgroundKind = 'aurora' | 'grid' | 'dots' | 'plain' | 'gradient' | 'image';
-export type FontId = 'jetbrains' | 'fira' | 'plex' | 'space' | 'system';
+export type FontId = 'jetbrains' | 'fira' | 'plex' | 'space' | 'source' | 'roboto' | 'inconsolata' | 'system';
 
 export interface Settings {
   // test
@@ -14,6 +15,11 @@ export interface Settings {
   words: number;
   language: LangId;
   accents: boolean;
+  /** Keep ñ (off: it becomes n). */
+  enye: boolean;
+  /** Spanish ¿? and ¡! pairs when punctuation is on. */
+  invertedMarks: boolean;
+  codeLang: CodeLang;
   punctuation: boolean;
   numbers: boolean;
   customText: string;
@@ -38,6 +44,10 @@ export interface Settings {
   // look
   theme: string;
   accent: string | null;
+  /** Optional colour overrides on top of the theme. */
+  colorFg: string | null;
+  colorSub: string | null;
+  colorErr: string | null;
   font: FontId;
   fontSize: number;
   background: BackgroundKind;
@@ -64,6 +74,9 @@ export const DEFAULT_SETTINGS: Settings = {
   words: 25,
   language: 'es',
   accents: true,
+  enye: true,
+  invertedMarks: true,
+  codeLang: 'c',
   punctuation: false,
   numbers: false,
   customText: '',
@@ -85,6 +98,9 @@ export const DEFAULT_SETTINGS: Settings = {
 
   theme: 'voltio',
   accent: null,
+  colorFg: null,
+  colorSub: null,
+  colorErr: null,
   font: 'jetbrains',
   fontSize: 28,
   background: 'aurora',
@@ -111,8 +127,10 @@ export const THEMES: ThemeInfo[] = [
   { id: 'brasa', name: 'Brasa', dark: true, swatch: ['#130f0d', '#f6ebe0', '#ff7a2f', '#ffc15c'] },
   { id: 'marea', name: 'Marea', dark: true, swatch: ['#06161c', '#def5f6', '#2de2c8', '#3aa0ff'] },
   { id: 'noctiluca', name: 'Noctiluca', dark: true, swatch: ['#120a1f', '#f3e9ff', '#ff4fd8', '#8a5cff'] },
+  { id: 'ambar', name: 'Ámbar', dark: true, swatch: ['#100c04', '#ffe9b8', '#ffb000', '#ff6a00'] },
   { id: 'papel', name: 'Papel', dark: false, swatch: ['#f6efe2', '#1d2a44', '#2447d6', '#e8590c'] },
   { id: 'escarcha', name: 'Escarcha', dark: false, swatch: ['#eef5fb', '#17324d', '#0b7a99', '#6a5acd'] },
+  { id: 'menta', name: 'Menta', dark: false, swatch: ['#eef8f1', '#143a2b', '#0a7d52', '#c2410c'] },
 ];
 
 export const FONTS: { id: FontId; name: string }[] = [
@@ -120,6 +138,9 @@ export const FONTS: { id: FontId; name: string }[] = [
   { id: 'fira', name: 'Fira Code' },
   { id: 'plex', name: 'IBM Plex Mono' },
   { id: 'space', name: 'Space Mono' },
+  { id: 'source', name: 'Source Code Pro' },
+  { id: 'roboto', name: 'Roboto Mono' },
+  { id: 'inconsolata', name: 'Inconsolata' },
   { id: 'system', name: 'Sistema' },
 ];
 
@@ -137,11 +158,14 @@ export function sanitizeSettings(raw: unknown): Settings {
   const r = (typeof raw === 'object' && raw !== null ? raw : {}) as Record<string, unknown>;
   const d = DEFAULT_SETTINGS;
   return {
-    mode: oneOf(r.mode, ['time', 'words', 'custom'] as const, d.mode),
+    mode: oneOf(r.mode, ['time', 'words', 'custom', 'code'] as const, d.mode),
     time: oneOf(r.time, TIME_OPTIONS, d.time),
     words: oneOf(r.words, WORD_OPTIONS, d.words),
     language: oneOf(r.language, ['es', 'en', 'cyber', 'c42'] as const, d.language),
     accents: bool(r.accents, d.accents),
+    enye: bool(r.enye, d.enye),
+    invertedMarks: bool(r.invertedMarks, d.invertedMarks),
+    codeLang: oneOf(r.codeLang, CODE_LANG_IDS, d.codeLang),
     punctuation: bool(r.punctuation, d.punctuation),
     numbers: bool(r.numbers, d.numbers),
     customText: str(r.customText, d.customText, 60000),
@@ -163,6 +187,9 @@ export function sanitizeSettings(raw: unknown): Settings {
 
     theme: oneOf(r.theme, THEMES.map((t) => t.id), d.theme),
     accent: hex(r.accent),
+    colorFg: hex(r.colorFg),
+    colorSub: hex(r.colorSub),
+    colorErr: hex(r.colorErr),
     font: oneOf(r.font, FONTS.map((f) => f.id), d.font),
     fontSize: num(r.fontSize, 18, 48, d.fontSize),
     background: oneOf(r.background, ['aurora', 'grid', 'dots', 'plain', 'gradient', 'image'] as const, d.background),
