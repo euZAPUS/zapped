@@ -112,7 +112,7 @@ export const THEMES: ThemeInfo[] = [
   { id: 'marea', name: 'Marea', dark: true, swatch: ['#06161c', '#def5f6', '#2de2c8', '#3aa0ff'] },
   { id: 'noctiluca', name: 'Noctiluca', dark: true, swatch: ['#120a1f', '#f3e9ff', '#ff4fd8', '#8a5cff'] },
   { id: 'papel', name: 'Papel', dark: false, swatch: ['#f6efe2', '#1d2a44', '#2447d6', '#e8590c'] },
-  { id: 'escarcha', name: 'Escarcha', dark: false, swatch: ['#eef5fb', '#17324d', '#0a8fb0', '#6a5acd'] },
+  { id: 'escarcha', name: 'Escarcha', dark: false, swatch: ['#eef5fb', '#17324d', '#0b7a99', '#6a5acd'] },
 ];
 
 export const FONTS: { id: FontId; name: string }[] = [

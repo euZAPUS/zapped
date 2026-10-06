@@ -5,6 +5,7 @@
   margin: 0 auto;
   padding: 0 clamp(16px, 4vw, 32px);
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
 }
 
@@ -63,6 +64,8 @@
 }
 .footer a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
 .footer a:hover { color: var(--accent); }
+
+@media (pointer: coarse) { .hints { display: none; } }
 
 @media (max-width: 640px) {
   .topbar { flex-wrap: wrap; }

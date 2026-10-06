@@ -179,8 +179,14 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
   ]);
 
   // ---- Fondo
-  const bgSeg = segmented(BACKGROUNDS, s0.background, (background) => settings.set({ background }), 'Fondo');
-  reg((s) => bgSeg.set(s.background));
+  const bgSelect = h(
+    'select',
+    { 'aria-label': 'Estilo de fondo' },
+    BACKGROUNDS.map((b) => h('option', { value: b.value }, b.label)),
+  );
+  bgSelect.value = s0.background;
+  bgSelect.addEventListener('change', () => settings.set({ background: bgSelect.value as BackgroundKind }));
+  reg((s) => (bgSelect.value = s.background));
 
   const colorA = h('input', { type: 'color', value: s0.bgColorA ?? '#0c0d1f', 'aria-label': 'Color inicial' });
   const colorB = h('input', { type: 'color', value: s0.bgColorB ?? '#15173a', 'aria-label': 'Color final' });
@@ -233,7 +239,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
     row('Desenfoque', blur.el),
     fileNote,
   );
-  const bgSection = section('Fondo', [row('Estilo', bgSeg.el), gradientRow, imageBlock]);
+  const bgSection = section('Fondo', [row('Estilo', bgSelect), gradientRow, imageBlock]);
   reg((s) => {
     gradientRow.hidden = s.background !== 'gradient';
     imageBlock.hidden = s.background !== 'image';

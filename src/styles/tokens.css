@@ -52,13 +52,13 @@
 }
 :root[data-theme='papel'] {
   --bg: #f6efe2; --bg-2: #e9dcc2; --surface: #fffaf0; --surface-2: #f1e8d6; --border: #dccfb4;
-  --fg: #1d2a44; --sub: #968a72; --muted: #6b6350; --accent: #2447d6; --accent-2: #e8590c;
-  --on-accent: #ffffff; --err: #d6336c; color-scheme: light;
+  --fg: #1d2a44; --sub: #857a62; --muted: #6b6350; --accent: #2447d6; --accent-2: #e8590c;
+  --on-accent: #ffffff; --err: #c2255c; color-scheme: light;
 }
 :root[data-theme='escarcha'] {
   --bg: #eef5fb; --bg-2: #d3e6f5; --surface: #ffffff; --surface-2: #e3eef8; --border: #c6d9e8;
-  --fg: #17324d; --sub: #7a93a9; --muted: #52708a; --accent: #0a8fb0; --accent-2: #6a5acd;
-  --on-accent: #ffffff; --err: #e5484d; color-scheme: light;
+  --fg: #17324d; --sub: #667f95; --muted: #52708a; --accent: #0b7a99; --accent-2: #6a5acd;
+  --on-accent: #ffffff; --err: #cf2a35; color-scheme: light;
 }
 
 :root[data-font='jetbrains'] { --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace; }

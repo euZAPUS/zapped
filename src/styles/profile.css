@@ -1,4 +1,5 @@
-.view[data-view='profile'] { display: grid; gap: 16px; align-content: start; }
+.view[data-view='profile'] { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-content: start; }
+.view[data-view='profile'] > * { min-width: 0; }
 .card {
   padding: 20px; border-radius: var(--radius-l);
   background: color-mix(in srgb, var(--surface) 82%, transparent); border: 1px solid var(--border);
@@ -51,15 +52,15 @@
 
 /* Activity heatmap */
 .heat-wrap { display: grid; gap: 10px; overflow-x: auto; }
-.heatmap { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); grid-auto-columns: minmax(14px, 1fr); gap: 4px; min-width: 340px; }
-.cell { display: block; aspect-ratio: 1; min-height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.heatmap { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 18px); grid-auto-columns: 18px; gap: 5px; width: max-content; }
+.cell { display: block; width: 18px; height: 18px; border-radius: 5px; background: color-mix(in srgb, var(--fg) 8%, transparent); }
 .cell[data-level='1'] { background: color-mix(in srgb, var(--accent) 28%, transparent); }
 .cell[data-level='2'] { background: color-mix(in srgb, var(--accent) 50%, transparent); }
 .cell[data-level='3'] { background: color-mix(in srgb, var(--accent) 75%, transparent); }
 .cell[data-level='4'] { background: var(--accent); box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent); }
 .cell.future { opacity: 0.25; }
 .heat-legend { display: flex; align-items: center; gap: 4px; }
-.heat-legend .cell { width: 12px; height: 12px; min-height: 0; }
+.heat-legend .cell { width: 12px; height: 12px; border-radius: 3px; }
 
 @media (max-width: 720px) {
   .profile-head { grid-template-columns: auto 1fr; }
