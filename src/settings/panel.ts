@@ -1,3 +1,4 @@
+import { buildAboutSection } from '../app/about-section';
 import { buildDataSection } from '../app/data-section';
 import { sound } from '../audio/sound';
 import { applyBackground } from '../render/background';
@@ -274,6 +275,8 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
   // ---- Datos
   const dataSection = section('Datos y nube', [buildDataSection()]);
 
+  const aboutSection = section('Acerca de', [buildAboutSection()]);
+
   // ---- Atajos
   const shortcuts = section('Atajos', [
     h(
@@ -309,7 +312,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
         closeButton(() => modal.close()),
       ),
     ),
-    h('div', { class: 'drawer-body' }, testSection, effectsSection, soundSection, lookSection, bgSection, dataSection, shortcuts, h('div', { class: 'row end' }, reset)),
+    h('div', { class: 'drawer-body' }, testSection, effectsSection, soundSection, lookSection, bgSection, dataSection, shortcuts, aboutSection, h('div', { class: 'row end' }, reset)),
   );
   document.body.append(dialog);
 

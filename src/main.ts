@@ -8,6 +8,8 @@ import { TestController } from './app/test-controller';
 import { mountProfile } from './app/profile';
 import { sync } from './sync/sync-manager';
 import { mountPalette } from './app/palette';
+import { mountDesktopBackup } from './app/desktop-backup';
+import { mountUpdaterUi } from './app/updater-ui';
 import { mountDock } from './render/dock';
 import { Effects } from './render/effects';
 import { TextView } from './render/text-view';
@@ -120,3 +122,7 @@ sync.start();
 
 controller.newTest();
 focusCapture();
+
+// Desktop app only (no-ops in the browser): update screen and on-disk data copy.
+mountUpdaterUi();
+void mountDesktopBackup();
