@@ -68,6 +68,7 @@ capture.addEventListener('blur', () => {
   if (!isDialogOpen() && controller.state !== 'finished') wordsWrap.classList.add('unfocused');
 });
 wordsWrap.addEventListener('pointerdown', () => window.setTimeout(focusCapture, 0));
+wordsWrap.addEventListener('click', focusCapture); // mobile browsers only raise the keyboard from a click
 byId('focus-hint').addEventListener('click', focusCapture);
 
 // The interface fades while typing and comes back when the mouse moves.

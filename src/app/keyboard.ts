@@ -75,13 +75,25 @@ export function bindKeyboard(deps: KeyboardDeps): void {
   // Composed text (dead keys, IME) and soft keyboards arrive through the hidden textarea.
   capture.addEventListener('compositionend', (e) => {
     const data = e.data;
-    capture.value = '';
+    reset();
     if (data && controller.state !== 'finished') feed(data);
   });
+  // A sentinel character keeps the field non-empty so soft keyboards can report Backspace.
+  const SENTINEL = '\u200b';
+  const reset = (): void => {
+    capture.value = SENTINEL;
+    capture.setSelectionRange(1, 1);
+  };
+  reset();
+  capture.addEventListener('focus', reset);
   capture.addEventListener('input', (e) => {
-    if ((e as InputEvent).isComposing) return;
-    const value = capture.value;
-    capture.value = '';
-    if (value && controller.state !== 'finished') feed(value);
+    const ev = e as InputEvent;
+    if (ev.isComposing) return;
+    const value = capture.value.split(SENTINEL).join('');
+    const deleted = ev.inputType.startsWith('delete');
+    reset();
+    if (controller.state === 'finished') return;
+    if (deleted && value === '') controller.backspace();
+    else if (value) feed(value);
   });
 }
