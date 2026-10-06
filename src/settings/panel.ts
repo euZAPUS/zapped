@@ -283,7 +283,7 @@ export function mountSettings(opts: { onProfile: () => void; onClose: () => void
         [
           ['Tab', 'Reinicia con palabras nuevas (también en modo texto; la sangría se salta sola)'],
           ['Ctrl + ⌫', 'Borra la palabra actual'],
-          ['Esc', 'Abre y cierra los ajustes'],
+          ['Esc', 'Abre la barra de comandos: busca cualquier opción, activa o desactiva ajustes y cambia tema, fuente, tiempo o modo al instante'],
           ['Enter', 'Tras el resultado, lanza otro test'],
         ] as const
       ).flatMap(([k, d]) => [h('dt', {}, h('kbd', {}, k)), h('dd', {}, d)]),

@@ -7,6 +7,7 @@ import { currentRoute, mountRouter } from './app/router';
 import { TestController } from './app/test-controller';
 import { mountProfile } from './app/profile';
 import { sync } from './sync/sync-manager';
+import { mountPalette } from './app/palette';
 import { mountDock } from './render/dock';
 import { Effects } from './render/effects';
 import { TextView } from './render/text-view';
@@ -46,6 +47,14 @@ settingsModal = mountSettings({
 });
 byId('btn-settings').addEventListener('click', () => settingsModal.open());
 
+const palette = mountPalette({
+  newTest: (repeat) => controller.newTest(repeat),
+  openSettings: () => settingsModal.open(),
+  editText: () => customDialog.open(),
+  goto: (route) => (location.hash = route === 'profile' ? '#/perfil' : '#/'),
+  onClose: () => requestAnimationFrame(focusCapture),
+});
+
 // Settings that change the text itself start a new test; the rest only restyle it.
 const RESTART_KEYS = [
   'mode', 'time', 'words', 'language', 'accents', 'enye', 'invertedMarks', 'codeLang',
@@ -63,7 +72,7 @@ bindKeyboard({
   controller,
   capture,
   isTestView: () => currentRoute() === 'test',
-  openSettings: () => settingsModal.open(),
+  openSettings: () => palette.open(),
   isDialogOpen,
 });
 
