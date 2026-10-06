@@ -117,7 +117,7 @@ const wordsOnScreen = (page, n) => page.$$eval('.word', (els, k) => els.slice(0,
   const page = await ctx.newPage();
   await page.addInitScript(() => {
     let cb = () => {};
-    window.zapperDesktop = {
+    window.zappedDesktop = {
       version: '1.0.0', platform: 'win32', checkForUpdates: async () => {}, installUpdate() {},
       lastUpdateStatus: async () => ({ state: 'idle' }), onUpdateStatus: (fn) => { cb = fn; return () => {}; },
       writeBackup: async () => {}, readBackup: async () => null,

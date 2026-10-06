@@ -3,10 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Updater } from './updater.cjs';
 
-const APP_NAME = 'zapper-aio';
+const APP_NAME = 'zapped';
 const MAX_BACKUP_BYTES = 20 * 1024 * 1024;
 const INDEX = path.join(__dirname, '..', '..', 'dist', 'index.html');
-const DEV_URL = process.env.ZAPPER_DEV_URL;
+const DEV_URL = process.env.ZAPPED_DEV_URL;
 
 app.setName(APP_NAME);
 
@@ -55,7 +55,7 @@ function createWindow(): void {
       nodeIntegration: false,
       sandbox: true,
       spellcheck: false,
-      additionalArguments: [`--zapper-version=${app.getVersion()}`],
+      additionalArguments: [`--zapped-version=${app.getVersion()}`],
     },
   });
 

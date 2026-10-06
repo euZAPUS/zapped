@@ -28,9 +28,9 @@ export interface DesktopBridge {
 
 declare global {
   interface Window {
-    zapperDesktop?: DesktopBridge;
+    zappedDesktop?: DesktopBridge;
   }
 }
 
 /** Present only when running inside the desktop app. */
-export const desktop: DesktopBridge | null = window.zapperDesktop ?? null;
+export const desktop: DesktopBridge | null = window.zappedDesktop ?? null;

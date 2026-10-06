@@ -4,7 +4,7 @@
 
 **Un test de mecanografía con chispa.** Animado, muy personalizable y sin backend.
 
-Español, inglés, ciberseguridad, C (al estilo 42) y modo código · barra de comandos con `Esc` · cursor que se desliza · brillo de racha · sonidos sintetizados · perfil con estadísticas · sincronización opcional con un gist secreto · **app de escritorio con instalador y auto‑actualización (zapper‑aio)**.
+Español, inglés, ciberseguridad, C (al estilo 42) y modo código · barra de comandos con `Esc` · cursor que se desliza · brillo de racha · sonidos sintetizados · perfil con estadísticas · sincronización opcional con un gist secreto · **app de escritorio con instalador y auto‑actualización**.
 
 ![zapped escribiendo, con brillo de racha y modo foco](docs/screenshots/typing.png)
 
@@ -18,9 +18,9 @@ Español, inglés, ciberseguridad, C (al estilo 42) y modo código · barra de c
 
 | Sistema | Archivo | Cómo se instala |
 |---|---|---|
-| **Windows** | `zapper-aio-Setup-<versión>.exe` | Doble clic y sigue el asistente. Si Windows muestra «Windows protegió su PC», pulsa **Más información → Ejecutar de todas formas** (el instalador aún no está firmado). |
-| **macOS** (Apple Silicon) | `zapper-aio-<versión>-arm64.dmg` | Ábrelo y arrastra la app a Aplicaciones. La primera vez, clic derecho → Abrir. |
-| **Linux** | `zapper-aio-<versión>.AppImage` | Dale permiso de ejecución y ábrelo. |
+| **Windows** | `zapped-Setup-<versión>.exe` | Doble clic y sigue el asistente. Si Windows muestra «Windows protegió su PC», pulsa **Más información → Ejecutar de todas formas** (el instalador aún no está firmado). |
+| **macOS** (Apple Silicon) | `zapped-<versión>-arm64.dmg` | Ábrelo y arrastra la app a Aplicaciones. La primera vez, clic derecho → Abrir. |
+| **Linux** | `zapped-<versión>.AppImage` | Dale permiso de ejecución y ábrelo. |
 
 Una vez instalada **se actualiza sola** al abrirla y guarda tus datos en tu usuario. También puedes usarlo directamente en el navegador, sin instalar nada: **https://euzapus.github.io/zapped/**
 
@@ -71,7 +71,7 @@ Una vez instalada **se actualiza sola** al abrirla y guarda tus datos en tu usua
 
 **Vite + TypeScript, sin framework.** La app es un bucle de teclado, DOM y SVG, así que un framework no aporta nada y solo añadiría peso: el build entero son ~110 kB de JS (~37 kB gzip) y cero dependencias en ejecución. TypeScript estricto da contratos claros entre módulos y Vite da `npm run dev` y un build estático listo para GitHub Pages. Los tests (Vitest) cubren el motor, las métricas, el generador de palabras y la fusión de datos.
 
-## App de escritorio: zapper-aio
+## App de escritorio: zapped
 
 La misma app, empaquetada con Electron como programa de escritorio: **instalador**, datos guardados en tu usuario, **sincronización con tu otro ordenador** y **actualización automática**.
 
@@ -80,9 +80,9 @@ La misma app, empaquetada con Electron como programa de escritorio: **instalador
 ### Instalarla
 
 1. Ve a la pestaña **Releases** del repositorio y descarga el instalador de tu sistema:
-   - **Windows**: `zapper-aio-Setup-<versión>.exe` (instalador con asistente; elige carpeta, crea acceso directo).
-   - **Linux**: `zapper-aio-<versión>.AppImage` (`chmod +x` y ejecútalo).
-   - **macOS**: `zapper-aio-<versión>-<arq>.dmg`. Como no está firmada con un certificado de Apple, macOS **no puede actualizarla sola**: hay que descargar la nueva versión a mano.
+   - **Windows**: `zapped-Setup-<versión>.exe` (instalador con asistente; elige carpeta, crea acceso directo).
+   - **Linux**: `zapped-<versión>.AppImage` (`chmod +x` y ejecútalo).
+   - **macOS**: `zapped-<versión>-<arq>.dmg`. Como no está firmada con un certificado de Apple, macOS **no puede actualizarla sola**: hay que descargar la nueva versión a mano.
 2. Windows mostrará el aviso de *SmartScreen* («Windows protegió su PC») porque el instalador no está firmado: **Más información → Ejecutar de todas formas**.
 
 ### Dónde se guardan tus datos
@@ -91,9 +91,9 @@ En la carpeta de tu usuario, **fuera** de la carpeta del programa, así que actu
 
 | Sistema | Ruta |
 |---|---|
-| Windows | `%APPDATA%\zapper-aio` |
-| macOS | `~/Library/Application Support/zapper-aio` |
-| Linux | `~/.config/zapper-aio` |
+| Windows | `%APPDATA%\zapped` |
+| macOS | `~/Library/Application Support/zapped` |
+| Linux | `~/.config/zapped` |
 
 Además de la copia normal, la app guarda un archivo `backup/zapped-data.json` en esa misma carpeta (con el último estado, y `.prev` con el anterior). Si por lo que sea se vaciara el almacenamiento del navegador interno, **al abrir se restaura sola desde esa copia**.
 
@@ -124,7 +124,7 @@ npm run desktop:pack   # carpeta empaquetada en release/ (sin instalador)
 npm run desktop:dist   # instalador de tu sistema en release/ (sin publicar)
 ```
 
-Para ver la pantalla de actualización sin publicar nada: `ZAPPER_FAKE_UPDATE=9.9.9 npm run desktop` (en Windows PowerShell: `$env:ZAPPER_FAKE_UPDATE="9.9.9"; npm run desktop`). Si prefieres otro nombre para la app, se cambia en `package.json` (`productName`) y en `electron-builder.yml`.
+Para ver la pantalla de actualización sin publicar nada: `ZAPPED_FAKE_UPDATE=9.9.9 npm run desktop` (en Windows PowerShell: `$env:ZAPPED_FAKE_UPDATE="9.9.9"; npm run desktop`). Si prefieres otro nombre para la app, se cambia en `package.json` (`productName`) y en `electron-builder.yml`.
 
 La ventana usa `contextIsolation` y `sandbox`, no tiene acceso a Node, solo abre enlaces `https` en el navegador, deniega permisos y lleva una política CSP que limita las conexiones a `api.github.com`. El puente con la web (`desktop/preload.cts`) expone únicamente: versión, buscar/instalar actualización y leer/escribir la copia de seguridad.
 

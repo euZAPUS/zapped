@@ -63,8 +63,8 @@ export class Updater {
 
   /** Called once when the window is ready. */
   start(): void {
-    if (process.env.ZAPPER_FAKE_UPDATE) {
-      void this.fake(process.env.ZAPPER_FAKE_UPDATE);
+    if (process.env.ZAPPED_FAKE_UPDATE) {
+      void this.fake(process.env.ZAPPED_FAKE_UPDATE);
       return;
     }
     void this.check();

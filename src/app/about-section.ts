@@ -26,7 +26,7 @@ function describe(s: UpdateStatus): string {
 export function buildAboutSection(): HTMLElement {
   const status = h('p', { class: 'status', role: 'status', 'aria-live': 'polite' });
   const kids: (HTMLElement | null)[] = [
-    h('p', {}, h('strong', {}, desktop ? 'zapper-aio' : 'zapped'), ` · versión ${desktop?.version || __APP_VERSION__}`, h('span', { class: 'muted' }, desktop ? ` · escritorio (${desktop.platform})` : ' · web')),
+    h('p', {}, h('strong', {}, desktop ? 'zapped' : 'zapped'), ` · versión ${desktop?.version || __APP_VERSION__}`, h('span', { class: 'muted' }, desktop ? ` · escritorio (${desktop.platform})` : ' · web')),
   ];
   if (desktop) {
     const bridge = desktop;

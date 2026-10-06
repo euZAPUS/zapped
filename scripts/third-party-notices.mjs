@@ -9,7 +9,7 @@ const FONTS = ['jetbrains-mono', 'fira-code', 'ibm-plex-mono', 'space-mono', 'sp
 const out = [];
 out.push('THIRD-PARTY NOTICES');
 out.push('===================');
-out.push('zapped / zapper-aio is proprietary software (see LICENSE). It includes the third-party');
+out.push('zapped is proprietary software (see LICENSE). It includes the third-party');
 out.push('components below, which remain under their own licenses.');
 out.push('');
 out.push('FONTS (SIL Open Font License 1.1, via @fontsource)');

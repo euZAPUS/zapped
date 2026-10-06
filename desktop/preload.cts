@@ -9,8 +9,8 @@ interface UpdateStatus {
 }
 
 // Minimal, explicit surface for the web app. Nothing else from Node/Electron is exposed.
-contextBridge.exposeInMainWorld('zapperDesktop', {
-  version: process.argv.find((a) => a.startsWith('--zapper-version='))?.split('=')[1] ?? '',
+contextBridge.exposeInMainWorld('zappedDesktop', {
+  version: process.argv.find((a) => a.startsWith('--zapped-version='))?.split('=')[1] ?? '',
   platform: process.platform,
   checkForUpdates: (): Promise<void> => ipcRenderer.invoke('updater:check'),
   installUpdate: (): void => ipcRenderer.send('updater:install'),
