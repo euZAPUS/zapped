@@ -6,6 +6,14 @@
 
 Español, inglés, ciberseguridad, C (al estilo 42) y modo código · barra de comandos con `Esc` · cursor que se desliza · brillo de racha · sonidos sintetizados · perfil con estadísticas · sincronización opcional con un gist secreto · **app de escritorio con instalador y auto‑actualización**.
 
+<p>
+  <a href="https://github.com/euZAPUS/zapped/releases/latest"><img alt="Última versión" src="https://img.shields.io/github/v/release/euZAPUS/zapped?style=flat-square&labelColor=09090a&color=ffae00"></a>
+  <a href="https://euzapus.github.io/zapped/"><img alt="Probar en el navegador" src="https://img.shields.io/badge/probar-en%20el%20navegador-eeeeef?style=flat-square&labelColor=09090a"></a>
+  <img alt="Plataformas" src="https://img.shields.io/badge/Windows%20%C2%B7%20macOS%20%C2%B7%20Linux%20%C2%B7%20Web-8d8f96?style=flat-square&labelColor=09090a">
+  <img alt="Código visible, todos los derechos reservados" src="https://img.shields.io/badge/c%C3%B3digo-visible%20%C2%B7%20derechos%20reservados-8d8f96?style=flat-square&labelColor=09090a">
+  <a href="https://alvaro.sangon.eu"><img alt="Portfolio" src="https://img.shields.io/badge/portfolio-alvaro.sangon.eu-ffae00?style=flat-square&labelColor=09090a"></a>
+</p>
+
 ![zapped escribiendo, con brillo de racha y modo foco](docs/screenshots/typing.png)
 
 </div>
